@@ -31,49 +31,65 @@ function Attr:load()
 end
 
 function Attr:setAll()
+    --maxHealth
     SetPedMaxHealth(PlayerPedId(), self.data.maxHealth)
     if GetEntityHealth(PlayerPedId()) > self.data.maxHealth then
         SetEntityHealth(PlayerPedId(),self.data.maxHealth)
     end
-
-
+    --maxStamina
+    -- SetPlayerMaxStamina(PlayerId(),50)
+    -- if GetPlayerStamina(PlayerId()) > self.data.maxStamina then
+    --     SetPlayerStamina(PlayerId(),50)
+    -- end
+    -- SetPlayerStamina(PlayerId(),50)
 end
 
 function Attr:setMaxHealth(data)
-
+    self.data.maxHealth = data
+    SetPedMaxHealth(PlayerPedId(), self.data.maxHealth)
+    if GetEntityHealth(PlayerPedId()) > self.data.maxHealth then
+        SetEntityHealth(PlayerPedId(),self.data.maxHealth)
+    end
 end
 
 function Attr:setMaxStamina(data)
-
+    self.data.maxStamina = data
+    --TODO
 end
 
 function Attr:setCriticalStrikeRate(data)
-
+    self.data.criticalStrikeRate = data
+    --TODO
 end
 
 function Attr:setCriticalStrikeHarm(data)
-
+    self.data.criticalStrikeHarm = data
+    --TODO
 end
 
 function Attr:setPhysicalDefense(data)
-
+    self.data.physicalDefense = data
+    --TODO
 end
 
 function Attr:setMagicDefense(data)
-
+    self.data.magicDefense = data
+    --TODO
 end
 
 function Attr:setPhysicalAttack(data)
-
+    self.data.physicalAttack = data
+    --TODO
 end
 
 function Attr:setMagicAttack(data)
-
+    self.data.magicAttack = data
+    --TODO
 end
 
 --------------------------------------------------------------------------------------
 --                                                                                  --
---                                 exports function                                 --
+--                                     exports                                      --
 --                                                                                  --
 --------------------------------------------------------------------------------------
 
@@ -147,7 +163,7 @@ end)
 
 --------------------------------------------------------------------------------------
 --                                                                                  --
---                                  main function                                   --
+--                                      event                                       --
 --                                                                                  --
 --------------------------------------------------------------------------------------
 
@@ -156,11 +172,22 @@ RegisterNetEvent("esx:playerLoaded", function()
     Attr:load()
 end)
 
+RegisterNetEvent("Attr:client:attrChange")
+AddEventHandler("Attr:client:attrChange", function ()
+    Attr:load()
+end)
+
+--------------------------------------------------------------------------------------
+--                                                                                  --
+--                                  main function                                   --
+--                                                                                  --
+--------------------------------------------------------------------------------------
+
 Citizen.CreateThread(function()
     Wait(1000)
     Attr:load()
-    -- while true do
-    --     Citizen.Wait(1000)
-    --     print(GetEntityHealth(PlayerPedId()) .. "/" .. GetEntityMaxHealth(PlayerPedId()))
-    -- end
+    while true do
+        Citizen.Wait(1000)
+        print(GetPlayerStamina(PlayerId()) .. "/" .. GetPlayerMaxStamina(PlayerId()))
+    end
 end)
